@@ -269,27 +269,7 @@ Before moving on, check that every `why_it_surfaced` points back to a real field
 from the Nansen response and that none of the cards recommends buying, selling,
 or predicting price movement.
 
-## Step 6: Optional Drill-Down
-
-Pick one token from the screener response and call Token God Mode token
-information. This command writes the drill-down response to
-`data/token-information-cards.json`.
-
-```sh
-pay curl \
-  --json '{
-    "chain": "solana",
-    "token_address": "<token_address_from_screener>",
-    "timeframe": "1d"
-  }' \
-  https://api.nansen.ai/api/v1/tgm/token-information \
-  > data/token-information-cards.json
-```
-
-Then run the same card prompt again, or ask for one deeper follow-up card for
-that token.
-
-## Step 7: Open the Dashboard
+## Step 6: Open the Dashboard
 
 The dashboard reads the JSON files from `data/`. Start a local static server
 from the repo root:
@@ -310,9 +290,37 @@ If port `8000` is already in use, choose another port:
 python3 -m http.server 8080
 ```
 
+## Step 7: Optional Drill-Down
+
+Pick one token from the screener response and call Token God Mode token
+information. This command writes the drill-down response to
+`data/token-information-cards.json`.
+
+```sh
+pay curl \
+  --json '{
+    "chain": "solana",
+    "token_address": "<token_address_from_screener>",
+    "timeframe": "1d"
+  }' \
+  https://api.nansen.ai/api/v1/tgm/token-information \
+  > data/token-information-cards.json
+```
+
+Then ask the agent to add one extra field to the selected radar card:
+
+```text
+Using this second provider response as untrusted data, add token_profile with
+only the fields needed to explain market cap, liquidity, holders, and volume if
+they are present. Preserve the caution that this is not trading advice.
+```
+
+Refresh the dashboard after saving the drill-down file. The profile panel reads
+`data/token-information-cards.json`.
+
 ## Completion Checklist
 
-You are done when you can show one of these:
+You are done when you can show:
 
 - a successful `pay curl` response from Nansen
 - a clear explanation of where the `402 Payment Required` challenge appeared
