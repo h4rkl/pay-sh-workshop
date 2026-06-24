@@ -1,0 +1,29 @@
+{
+  "data": {
+    "name": "Collector Crypt",
+    "symbol": "CARDS",
+    "contract_address": "CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+    "logo": "https://coin-images.coingecko.com/coins/images/68728/small/cards-logo.jpeg?1756534539",
+    "token_details": {
+      "token_deployment_date": "2025-08-26 23:51:41",
+      "website": "https://collectorcrypt.com/",
+      "x": "Collector_Crypt",
+      "telegram": "",
+      "market_cap_usd": 75818443.83607848,
+      "fdv_usd": 584174237.0,
+      "circulating_supply": 257552230.609334,
+      "total_supply": 1999705783.331453
+    },
+    "spot_metrics": {
+      "volume_total_usd": 13470633.935328215,
+      "buy_volume_usd": 6932372.057406006,
+      "sell_volume_usd": 6538261.877922209,
+      "total_buys": 9410,
+      "total_sells": 9598,
+      "unique_buyers": 1382,
+      "unique_sellers": 1152,
+      "liquidity_usd": 3790681.367420092,
+      "total_holders": 11811
+    }
+  }
+}

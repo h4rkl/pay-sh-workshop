@@ -1,0 +1,82 @@
+[
+  {
+    "symbol": "CARDS",
+    "chain": "solana",
+    "token_address": "CARDSccUMFKoPRZxt5vt3ksUbxEFEcnZ3H2pd3dKxYjp",
+    "why_it_surfaced": "CARDS had the largest 24h buy volume in this Solana screener response at about $195.4K, with 11 traders and about $408.4K total volume.",
+    "do_not_infer": "This does not prove future demand, price direction, or that the negative netflow will reverse.",
+    "next_check": "Call Token God Mode token-information for CARDS and compare liquidity, holders, buy volume, and sell volume.",
+    "source_fields": {
+      "buy_volume": 195416.26778142105,
+      "sell_volume": 212943.69379099918,
+      "volume": 408359.9615724202,
+      "netflow": -17527.426009578136,
+      "nof_traders": 11,
+      "price_change": 0.1309891680573336
+    }
+  },
+  {
+    "symbol": "ZERO",
+    "chain": "solana",
+    "token_address": "EmcxFTNVDqyLHp11NvwvLZ4D7LKGbG9i7B8RF7dwpump",
+    "why_it_surfaced": "ZERO showed about $47.8K in 24h buy volume, positive netflow of about $15.0K, and the highest inflow-to-FDV ratio in the response.",
+    "do_not_infer": "This does not prove that buyers are informed, that liquidity is durable, or that price will recover from the reported 24h decline.",
+    "next_check": "Inspect holder concentration and recent netflow to see whether activity is broad or concentrated.",
+    "source_fields": {
+      "buy_volume": 47789.57364809664,
+      "sell_volume": 32831.99772697915,
+      "volume": 80621.57137507579,
+      "netflow": 14957.575921117488,
+      "nof_traders": 7,
+      "price_change": -0.17014981536779644
+    }
+  },
+  {
+    "symbol": "ARX",
+    "chain": "solana",
+    "token_address": "ARXwZkNAtzPfdcoqQiduJn8EPv9fKiDfGn2KyggyDrFs",
+    "why_it_surfaced": "ARX appeared with about $45.0K in buy volume and about $117.5K total volume, but sell volume exceeded buy volume in this response.",
+    "do_not_infer": "This does not prove accumulation; the reported netflow is negative and should be checked before drawing conclusions.",
+    "next_check": "Compare wallet-level buyers and sellers to see whether a few wallets explain most of the activity.",
+    "source_fields": {
+      "buy_volume": 44988.932396693155,
+      "sell_volume": 72505.86091095067,
+      "volume": 117494.79330764382,
+      "netflow": -27516.92851425751,
+      "nof_traders": 3,
+      "price_change": -0.0954001601714818
+    }
+  },
+  {
+    "symbol": "GOBLIN",
+    "chain": "solana",
+    "token_address": "3KHMZhpthXuiCcgfTv7vVu9PpEz64KAEURFwi6Lopump",
+    "why_it_surfaced": "GOBLIN had about $33.7K in buy volume, positive netflow of about $15.7K, and six traders in the 24h response.",
+    "do_not_infer": "This does not prove sustained smart-money interest because the response does not show holder concentration or repeat participation.",
+    "next_check": "Check holder distribution and follow-up netflow over a longer window.",
+    "source_fields": {
+      "buy_volume": 33722.44839870543,
+      "sell_volume": 18031.017451921318,
+      "volume": 51753.465850626744,
+      "netflow": 15691.430946784109,
+      "nof_traders": 6,
+      "price_change": -0.0374575793691857
+    }
+  },
+  {
+    "symbol": "KINS",
+    "chain": "solana",
+    "token_address": "Tqj8yFmagrg7oorpQkVGYR52r96RFTamvWfth9bpump",
+    "why_it_surfaced": "KINS had about $30.9K in buy volume, positive netflow of about $13.9K, and nine traders in the 24h response.",
+    "do_not_infer": "This does not prove broad market conviction or future price movement; the response only covers this requested window.",
+    "next_check": "Compare liquidity, holder count, and netflow over a longer Solana-only timeframe.",
+    "source_fields": {
+      "buy_volume": 30892.119195683605,
+      "sell_volume": 16954.460576922986,
+      "volume": 47846.579772606594,
+      "netflow": 13937.658618760619,
+      "nof_traders": 9,
+      "price_change": -0.12013673762168688
+    }
+  }
+]

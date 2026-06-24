@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Solana Token Radar</title>
+    <link rel="stylesheet" href="assets/styles.css">
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <p class="eyebrow">Pay.sh + Nansen workshop</p>
+        <h1>Solana Token Radar</h1>
+      </div>
+      <div class="header-meta">
+        <span>24h screen</span>
+        <span>Demo data</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="summary-grid" aria-label="Summary metrics">
+        <article class="summary-tile">
+          <span class="label">Tokens</span>
+          <strong id="token-count">-</strong>
+        </article>
+        <article class="summary-tile">
+          <span class="label">Buy Volume</span>
+          <strong id="buy-volume">-</strong>
+        </article>
+        <article class="summary-tile">
+          <span class="label">Netflow</span>
+          <strong id="netflow">-</strong>
+        </article>
+        <article class="summary-tile">
+          <span class="label">Positive Netflow</span>
+          <strong id="positive-count">-</strong>
+        </article>
+      </section>
+
+      <section class="toolbar" aria-label="Dashboard controls">
+        <div class="segmented" role="group" aria-label="Filter tokens">
+          <button class="is-active" type="button" data-filter="all">All</button>
+          <button type="button" data-filter="positive">Positive netflow</button>
+          <button type="button" data-filter="negative">Negative netflow</button>
+        </div>
+        <label class="sort-control">
+          <span>Sort</span>
+          <select id="sort-select">
+            <option value="buy_volume">Buy volume</option>
+            <option value="netflow">Netflow</option>
+            <option value="volume">Total volume</option>
+            <option value="market_cap_usd">Market cap</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="dashboard-layout">
+        <div>
+          <div class="section-heading">
+            <h2>Radar Cards</h2>
+            <span id="result-count">-</span>
+          </div>
+          <div id="cards" class="card-grid"></div>
+        </div>
+
+        <aside class="profile-panel" aria-label="Token drill-down">
+          <div class="section-heading">
+            <h2>Drill-Down</h2>
+            <span>Token God Mode</span>
+          </div>
+          <div id="profile"></div>
+        </aside>
+      </section>
+
+      <section class="table-section">
+        <div class="section-heading">
+          <h2>Screener Rows</h2>
+          <span>Nansen fields</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Token</th>
+                <th>Price</th>
+                <th>24h</th>
+                <th>Buy</th>
+                <th>Sell</th>
+                <th>Netflow</th>
+                <th>Liquidity</th>
+                <th>Traders</th>
+              </tr>
+            </thead>
+            <tbody id="token-table"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <span>Source files: src/data/token-screener-solana.json, src/data/radar-cards.json, src/data/token-information-cards.json</span>
+      <span>Research artifact only. Not financial advice.</span>
+    </footer>
+
+    <template id="card-template">
+      <article class="token-card">
+        <div class="card-topline">
+          <div class="token-id">
+            <div class="token-mark"></div>
+            <div>
+              <h3></h3>
+              <button class="address" type="button"></button>
+            </div>
+          </div>
+          <span class="chain-pill">solana</span>
+        </div>
+        <div class="metric-strip">
+          <div>
+            <span>Buy</span>
+            <strong data-field="buy"></strong>
+          </div>
+          <div>
+            <span>Netflow</span>
+            <strong data-field="netflow"></strong>
+          </div>
+          <div>
+            <span>24h</span>
+            <strong data-field="price_change"></strong>
+          </div>
+        </div>
+        <dl class="card-notes">
+          <dt>Why</dt>
+          <dd data-field="why"></dd>
+          <dt>Caution</dt>
+          <dd data-field="caution"></dd>
+          <dt>Next</dt>
+          <dd data-field="next"></dd>
+        </dl>
+      </article>
+    </template>
+
+    <script src="assets/dashboard.js"></script>
+  </body>
+</html>
