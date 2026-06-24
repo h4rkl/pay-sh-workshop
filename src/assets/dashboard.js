@@ -60,14 +60,54 @@ function formatNumber(value) {
 
 function truncateAddress(address) {
   if (!address) return "-";
-  if (address.length <= 14) return address;
-  return `${address.slice(0, 6)}...${address.slice(-6)}`;
+  const value = String(address);
+  if (value.length <= 14) return value;
+  return `${value.slice(0, 6)}...${value.slice(-6)}`;
 }
 
 function signedClass(value) {
   if (value > 0) return "positive";
   if (value < 0) return "negative";
   return "";
+}
+
+function initials(value) {
+  return String(value || "-").slice(0, 2).toUpperCase();
+}
+
+function safeHttpUrl(value) {
+  if (!value) return "";
+  try {
+    const url = new URL(String(value), window.location.href);
+    return url.protocol === "http:" || url.protocol === "https:" ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function safeXUrl(handle) {
+  const value = String(handle || "").replace(/^@/, "");
+  return /^[A-Za-z0-9_]{1,15}$/.test(value) ? `https://x.com/${value}` : "";
+}
+
+function makeElement(tag, className, text) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  if (text !== undefined) element.textContent = text;
+  return element;
+}
+
+function makeProfileStat(label, value) {
+  const stat = makeElement("div", "profile-stat");
+  stat.append(makeElement("span", "", label), makeElement("strong", "", value));
+  return stat;
+}
+
+function makeTableCell(text, className) {
+  const cell = document.createElement("td");
+  if (className) cell.className = className;
+  cell.textContent = text;
+  return cell;
 }
 
 function mergeRowsAndCards() {
@@ -126,22 +166,23 @@ function renderCards() {
     const profile = state.profile;
     const mark = node.querySelector(".token-mark");
     const isProfiledToken = profile?.contract_address === row.token_address;
+    const logoUrl = safeHttpUrl(profile?.logo);
 
-    if (isProfiledToken && profile.logo) {
+    if (isProfiledToken && logoUrl) {
       const image = document.createElement("img");
-      image.src = profile.logo;
-      image.alt = `${row.token_symbol} logo`;
+      image.src = logoUrl;
+      image.alt = `${row.token_symbol || "Token"} logo`;
       image.loading = "lazy";
       image.addEventListener("error", () => {
         image.remove();
-        mark.textContent = row.token_symbol.slice(0, 2);
+        mark.textContent = initials(row.token_symbol);
       });
       mark.append(image);
     } else {
-      mark.textContent = row.token_symbol.slice(0, 2);
+      mark.textContent = initials(row.token_symbol);
     }
 
-    node.querySelector("h3").textContent = row.token_symbol;
+    node.querySelector("h3").textContent = row.token_symbol || "-";
 
     const addressButton = node.querySelector(".address");
     addressButton.textContent = truncateAddress(row.token_address);
@@ -172,56 +213,65 @@ function renderCards() {
 function renderProfile() {
   const container = document.querySelector("#profile");
   const profile = state.profile;
+  container.replaceChildren();
+
   if (!profile) {
-    container.innerHTML = '<p class="empty-state">No drill-down profile loaded.</p>';
+    container.append(makeElement("p", "empty-state", "No drill-down profile loaded."));
     return;
   }
 
   const details = profile.token_details || {};
   const metrics = profile.spot_metrics || {};
-  const website = details.website
-    ? `<a href="${details.website}" target="_blank" rel="noreferrer">Website</a>`
-    : "";
-  const xLink = details.x
-    ? `<a href="https://x.com/${details.x}" target="_blank" rel="noreferrer">X</a>`
-    : "";
+  const profileHead = makeElement("div", "profile-head");
+  const logoUrl = safeHttpUrl(profile.logo);
+  const logo = logoUrl ? makeElement("img", "profile-logo") : makeElement("div", "profile-logo");
+  if (logoUrl) {
+    logo.src = logoUrl;
+    logo.alt = `${profile.symbol || "Token"} logo`;
+    logo.loading = "lazy";
+  } else {
+    logo.textContent = initials(profile.symbol);
+  }
+  profileHead.append(logo);
 
-  container.innerHTML = `
-    <div class="profile-head">
-      <img class="profile-logo" src="${profile.logo || ""}" alt="${profile.symbol || "Token"} logo">
-      <div>
-        <h3>${profile.symbol || "-"}</h3>
-        <p>${profile.name || "-"}</p>
-        <div class="profile-links">${website}${xLink}</div>
-      </div>
-    </div>
-    <div class="profile-stats">
-      <div class="profile-stat">
-        <span>Holders</span>
-        <strong>${formatNumber(metrics.total_holders)}</strong>
-      </div>
-      <div class="profile-stat">
-        <span>Liquidity</span>
-        <strong>${formatCurrency(metrics.liquidity_usd)}</strong>
-      </div>
-      <div class="profile-stat">
-        <span>Buy Volume</span>
-        <strong>${formatCurrency(metrics.buy_volume_usd)}</strong>
-      </div>
-      <div class="profile-stat">
-        <span>Sell Volume</span>
-        <strong>${formatCurrency(metrics.sell_volume_usd)}</strong>
-      </div>
-      <div class="profile-stat">
-        <span>Market Cap</span>
-        <strong>${formatCurrency(details.market_cap_usd)}</strong>
-      </div>
-      <div class="profile-stat">
-        <span>FDV</span>
-        <strong>${formatCurrency(details.fdv_usd)}</strong>
-      </div>
-    </div>
-  `;
+  const identity = document.createElement("div");
+  identity.append(makeElement("h3", "", profile.symbol || "-"));
+  identity.append(makeElement("p", "", profile.name || "-"));
+
+  const links = makeElement("div", "profile-links");
+  const websiteUrl = safeHttpUrl(details.website);
+  const xUrl = safeXUrl(details.x);
+
+  if (websiteUrl) {
+    const website = makeElement("a", "", "Website");
+    website.href = websiteUrl;
+    website.target = "_blank";
+    website.rel = "noreferrer";
+    links.append(website);
+  }
+
+  if (xUrl) {
+    const xLink = makeElement("a", "", "X");
+    xLink.href = xUrl;
+    xLink.target = "_blank";
+    xLink.rel = "noreferrer";
+    links.append(xLink);
+  }
+
+  identity.append(links);
+  profileHead.append(identity);
+
+  const stats = makeElement("div", "profile-stats");
+  stats.append(
+    makeProfileStat("Holders", formatNumber(metrics.total_holders)),
+    makeProfileStat("Liquidity", formatCurrency(metrics.liquidity_usd)),
+    makeProfileStat("Buy Volume", formatCurrency(metrics.buy_volume_usd)),
+    makeProfileStat("Sell Volume", formatCurrency(metrics.sell_volume_usd)),
+    makeProfileStat("Market Cap", formatCurrency(details.market_cap_usd)),
+    makeProfileStat("FDV", formatCurrency(details.fdv_usd))
+  );
+
+  container.append(profileHead, stats);
 }
 
 function renderTable() {
@@ -230,16 +280,16 @@ function renderTable() {
 
   visibleRows().forEach((row) => {
     const tr = document.createElement("tr");
-    tr.innerHTML = `
-      <td class="symbol-cell">${row.token_symbol}</td>
-      <td>${formatCurrency(row.price_usd, false)}</td>
-      <td class="${signedClass(row.price_change)}">${formatPercent(row.price_change)}</td>
-      <td>${formatCurrency(row.buy_volume)}</td>
-      <td>${formatCurrency(row.sell_volume)}</td>
-      <td class="${signedClass(row.netflow)}">${formatCurrency(row.netflow)}</td>
-      <td>${formatCurrency(row.liquidity)}</td>
-      <td>${row.nof_traders ?? "-"}</td>
-    `;
+    tr.append(
+      makeTableCell(row.token_symbol || "-", "symbol-cell"),
+      makeTableCell(formatCurrency(row.price_usd, false)),
+      makeTableCell(formatPercent(row.price_change), signedClass(row.price_change)),
+      makeTableCell(formatCurrency(row.buy_volume)),
+      makeTableCell(formatCurrency(row.sell_volume)),
+      makeTableCell(formatCurrency(row.netflow), signedClass(row.netflow)),
+      makeTableCell(formatCurrency(row.liquidity)),
+      makeTableCell(row.nof_traders ?? "-")
+    );
     body.append(tr);
   });
 }
@@ -285,12 +335,11 @@ async function init() {
     state.profile = profile.data || null;
     render();
   } catch (error) {
-    document.querySelector("main").innerHTML = `
-      <section class="empty-state">
-        <h2>Data files unavailable</h2>
-        <p>${error.message}</p>
-      </section>
-    `;
+    const main = document.querySelector("main");
+    const section = makeElement("section", "empty-state");
+    section.append(makeElement("h2", "", "Data files unavailable"));
+    section.append(makeElement("p", "", error.message));
+    main.replaceChildren(section);
   }
 }
 

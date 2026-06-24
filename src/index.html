@@ -8,14 +8,15 @@
   </head>
   <body>
     <header class="app-header">
-      <div>
-        <p class="eyebrow">Pay.sh + Nansen workshop</p>
-        <h1>Solana Token Radar</h1>
+      <div class="term-bar">
+        <h1 class="term-title">radar.sh<span> // solana token screener</span></h1>
+        <div class="header-meta">
+          <span class="live"><i aria-hidden="true"></i>live</span>
+          <span>nansen api</span>
+          <span>demo data</span>
+        </div>
       </div>
-      <div class="header-meta">
-        <span>24h screen</span>
-        <span>Demo data</span>
-      </div>
+      <p class="prompt"><span class="prompt-pre">solana@nansen</span>:<span class="prompt-path">~/radar</span> <span class="prompt-sign">$</span> <span class="prompt-cmd">screen --chain solana --timeframe 24h</span><span class="cursor" aria-hidden="true"></span></p>
     </header>
 
     <main>
@@ -99,8 +100,8 @@
     </main>
 
     <footer class="app-footer">
-      <span>Source files: src/data/token-screener-solana.json, src/data/radar-cards.json, src/data/token-information-cards.json</span>
-      <span>Research artifact only. Not financial advice.</span>
+      <span>src: token-screener-solana.json · radar-cards.json · token-information-cards.json</span>
+      <span>research artifact — not financial advice</span>
     </footer>
 
     <template id="card-template">
